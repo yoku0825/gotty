@@ -24,6 +24,7 @@ func main() {
 		flag{"permit-write", "w", "Permit clients to write to the TTY (BE CAREFUL)"},
 		flag{"credential", "c", "Credential for Basic Authentication (ex: user:pass, default disabled)"},
 		flag{"random-url", "r", "Add a random string to the URL"},
+		flag{"additional-path", "", "Add a specified string to the URL"},
 		flag{"random-url-length", "", "Random URL length"},
 		flag{"tls", "t", "Enable TLS/SSL"},
 		flag{"tls-crt", "", "TLS/SSL certificate file path"},
@@ -43,13 +44,14 @@ func main() {
 	}
 
 	mappingHint := map[string]string{
-		"index":      "IndexFile",
-		"tls":        "EnableTLS",
-		"tls-crt":    "TLSCrtFile",
-		"tls-key":    "TLSKeyFile",
-		"tls-ca-crt": "TLSCACrtFile",
-		"random-url": "EnableRandomUrl",
-		"reconnect":  "EnableReconnect",
+		"index":           "IndexFile",
+		"tls":             "EnableTLS",
+		"tls-crt":         "TLSCrtFile",
+		"tls-key":         "TLSKeyFile",
+		"tls-ca-crt":      "TLSCACrtFile",
+		"random-url":      "EnableRandomUrl",
+		"additional-path": "AdditionalPath",
+		"reconnect":       "EnableReconnect",
 	}
 
 	cliFlags, err := generateFlags(flags, mappingHint)

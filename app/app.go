@@ -59,6 +59,7 @@ type Options struct {
 	EnableBasicAuth     bool                   `hcl:"enable_basic_auth"`
 	Credential          string                 `hcl:"credential"`
 	EnableRandomUrl     bool                   `hcl:"enable_random_url"`
+	AdditionalPath      string                 `hcl:"additional_url"`
 	RandomUrlLength     int                    `hcl:"random_url_length"`
 	IndexFile           string                 `hcl:"index_file"`
 	EnableTLS           bool                   `hcl:"enable_tls"`
@@ -89,6 +90,7 @@ var DefaultOptions = Options{
 	EnableBasicAuth:     false,
 	Credential:          "",
 	EnableRandomUrl:     false,
+	AdditionalPath:      "",
 	RandomUrlLength:     8,
 	IndexFile:           "",
 	EnableTLS:           false,
@@ -170,7 +172,13 @@ func (app *App) Run() error {
 
 	path := ""
 	if app.options.EnableRandomUrl {
-		path += "/" + generateRandomString(app.options.RandomUrlLength)
+		if app.options.AdditionalPath != "" {
+			return errors.New("Both --random-url/-r and --additinal-path can not be specified at same time.")
+		} else {
+			path += "/" + generateRandomString(app.options.RandomUrlLength)
+		}
+	} else if app.options.AdditionalPath != "" {
+		path += "/" + app.options.AdditionalPath
 	}
 
 	endpoint := net.JoinHostPort(app.options.Address, app.options.Port)
